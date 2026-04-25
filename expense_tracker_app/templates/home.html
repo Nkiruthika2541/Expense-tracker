@@ -8,12 +8,16 @@
 <body>
   
   {% block content %}
+  <a href="{% url 'new_expense' %}">Add Expense</a>
+  <a href="{% url 'new_category' %}">Add Category</a>
   <h2>Expenses</h2>
   {% for i in expense %}
    <p>Amount : {{ i.amount }} </p>
    <p>Category : {{ i.category }} </p>
    <p>Date : {{ i.date }} </p>
    <p>Description : {{ i.description }} </p>
+   <button><a href="{% url 'update_expense' i.id %}">Update</a></button> 
+   <button><a href="{% url 'delete_expense' i.id %}">Delete</a></button>
   {% endfor %}
   <h2>Categories</h2>
   <ul>
@@ -21,6 +25,8 @@
       <li> {{ c.name }} </li>
     {% endfor %}
   </ul>
+  
+  
   {% endblock %}
 	
 </body>
