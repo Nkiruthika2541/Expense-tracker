@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+  <h2>Dashboard</h2>
+  
+  <p>Total Spent : {{ total_spent.t }}</p>
+  
+  <h2>Categories Summary</h2>
+  <ul>
+    {% for i in all_categories %}
+      <li> {{ i.name }} </li>
+    {% endfor %}
+  </ul>
+  
+  <h2>Recent Expenses</h2>
+  <ul>
+    {% for e in expenses %}
+      {% if e.category %}
+        <li>{{ e.category }} - Rs. {{ e.amount }}</li>
+       {% else %}
+       <li>Uncategorized - Rs. {{ e.amount }}</li>
+       {% endif %}
+      
+    {% endfor %}
+  </ul>
+  
+{% endblock %}

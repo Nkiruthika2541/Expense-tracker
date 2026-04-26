@@ -1,8 +1,9 @@
 {% extends 'home.html' %}
 
+{% block title %} Update Category {% endblock %}
 
 {% block content %}
-<h2>Update Expense Form</h2>
+<h2>Update Category Form</h2>
 <form method="post">
   {% csrf_token %}
   
@@ -16,6 +17,6 @@
     </div>
   {% endfor %}
   
-  <button type="submit">Add</button>
+  <button type="submit">Update</button>
 </form>
 {% endblock %}
