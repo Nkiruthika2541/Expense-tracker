@@ -3,7 +3,6 @@ from django import forms
 from expense_tracker_app.models import AddExpense,AddCategory
 
 
-
 class ExpenseForm(forms.ModelForm):
   class Meta:
     model = AddExpense

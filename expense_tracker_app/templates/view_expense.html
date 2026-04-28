@@ -21,8 +21,8 @@
    <p>Description : {{ i.description }} </p>
    {% endif %}
    
-   <button><a href="{% url 'update_expense' i.id %}">Update</a></button> 
-   <button><a href="{% url 'delete_expense' i.id %}">Delete</a></button>
+   <button><a href="{% url 'expense-update' i.id %}">Update</a></button> 
+   <button><a href="{% url 'expense-delete' i.id %}">Delete</a></button>
   
   {% endfor %}
   

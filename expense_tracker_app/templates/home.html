@@ -8,7 +8,7 @@
 </head>
 <body>
   <a href="{% url 'dashboard' %}">Dashboard</a>
-  <a href="{% url 'new_expense' %}">Add Expense</a>
+  <a href="{% url 'expense-add' %}">Add Expense</a>
   <a href="{% url 'new_category' %}">Add Category</a>
   <a href="{% url 'view_expense' %}">View Expense</a>
   
@@ -31,8 +31,8 @@
    <p>Description : {{ i.description }} </p>
    {% endif %}
    
-   <button><a href="{% url 'update_expense' i.id %}">Update</a></button> 
-   <button><a href="{% url 'delete_expense' i.id %}">Delete</a></button>
+   <button><a href="{% url 'expense-update' i.id %}">Update</a></button> 
+   <button><a href="{% url 'expense-delete' i.id %}">Delete</a></button>
   
   {% endfor %}
   

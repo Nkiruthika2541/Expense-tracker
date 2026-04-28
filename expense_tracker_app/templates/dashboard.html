@@ -14,16 +14,40 @@
     {% endfor %}
   </ul>
   
-  <h2>Recent Expenses</h2>
-  <ul>
-    {% for e in expenses %}
-      {% if e.category %}
-        <li>{{ e.category }} - Rs. {{ e.amount }}</li>
-       {% else %}
-       <li>Uncategorized - Rs. {{ e.amount }}</li>
-       {% endif %}
-      
-    {% endfor %}
-  </ul>
-  
+  <h2>Recent Expenses - Table Representation</h2>
+  <table border="2">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Spent on Date</th>
+        <th colspan="2">Action</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      {% for e in expenses %}
+        <tr>
+          <td> {{ forloop.counter }}</td>
+          <td> Rs. {{ e.amount }} </td>
+          {% if e.category %}
+            <td>{{ e.category }}</td>
+          {% else %}
+            <td>Uncategorized</td>
+          {% endif %}  
+          <td> {{ e.date }}</td>
+          <td> <button><a href="{% url 'expense-update' e.id %}">Update</a></button> </td>
+          <td> <button><a href="{% url 'expense-delete' e.id %}">Delete</a></button> </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    
+    <tfoot>
+      <tr>
+        <td><button> <a href="{% url 'view_expense' %}">More</a></button> </td>
+      </tr>
+    </tfoot>
+    
+  </table>
 {% endblock %}

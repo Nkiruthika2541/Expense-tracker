@@ -6,11 +6,11 @@
 <h2>Delete Expense Confirmation</h2>
   <form action="" method="post" accept-charset="utf-8" onclick="Are You Sure ?">
     {% csrf_token %}
-    <p>Amount : {{ form.amount }}</p> 
-    <p>Category : {{ form.category }}</p> 
-    <p>Date : {{ form.date }}</p> 
-    <p>Description : {{ form.description }}</p> 
-    <p>Created on : {{ form.created_at }}</p> 
+    <p>Amount : {{ expense.amount }}</p> 
+    <p>Category : {{ expense.category }}</p> 
+    <p>Date : {{ expense.date }}</p> 
+    <p>Description : {{ expense.description }}</p> 
+    <p>Created on : {{ expense.created_at }}</p> 
     <button type="submit">Delete</button>
   </form>
 {% endblock %}
