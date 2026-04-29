@@ -1,0 +1,46 @@
+{% extends 'home.html' %}
+
+{% block title %} Filter Results {% endblock %}
+
+{% block content %}
+  <table border="2">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Spent on Date</th>
+        <th colspan="2">Action</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      {% for e in expense %}
+        <tr>
+          <td> {{ forloop.counter }}</td>
+          <td> Rs. {{ e.amount }} </td>
+          <td>{{ e.category }}</td>
+          <td> {{ e.description }} </td>
+          <td> {{ e.date }}</td>
+          <td> <button><a href="{% url 'expense-update' e.id %}">Update</a></button> </td>
+          <td> <button><a href="{% url 'expense-delete' e.id %}">Delete</a></button> </td>
+        </tr>
+      {% empty %}
+      <tr>
+        <td colspan="7">No Results Found</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    
+    <tfoot>
+      <tr>
+        <td colspan="3"><button> <a href="{% url 'view_expense' %}">More</a></button> </td>
+        <td colspan="4"><button> <a href="{% url 'dashboard' %}">Home</a></button> </td>
+      </tr>
+    </tfoot>
+    
+    
+    
+  </table>
+{% endblock %}

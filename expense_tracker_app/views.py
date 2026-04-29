@@ -64,7 +64,51 @@ def delete_category(request,catg_id):
 # CLASS BASED VIEWS
 
 # EXPENSE
-
+  
+  # LIST
+class ExpenseListView(View):  
+  
+  def get_queryset(self,request):  
+    queryset = AddExpense.objects.select_related('category').order_by('-date')
+    
+    category = request.GET.get('category')
+    min_amount = request.GET.get('min')
+    max_amount = request.GET.get('max')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    month = request.GET.get('month')
+    year = request.GET.get('year')
+    
+    if category:
+      queryset = queryset.filter(category_id= category)
+      
+    if min_amount:
+      queryset = queryset.filter(amount__gte = min_amount)
+      
+    if max_amount:
+      queryset = queryset.filter(amount__lte = max_amount)
+      
+    if start_date:
+      queryset = queryset.filter(date__gte = start_date)
+      
+    if end_date:
+      queryset = queryset.filter(date__lte = end_date)
+      
+    if month:
+      queryset = queryset.filter(date__month = month)
+      
+    if year:
+      queryset = queryset.filter(date__year = year)
+      
+    return queryset
+    
+  def get(self,request):  
+    expense = self.get_queryset(request)
+    categories = AddCategory.objects.all()
+    
+    return render(request,'filter.html',{'expense':expense,'categories':categories,'filters':request.GET})
+  
+  
   # CREATE
 class ExpenseCreateView(View): 
   
@@ -117,3 +161,5 @@ class ExpenseDeleteView(View):
   # CREATE
   # UPDATE
   # DELETE 
+  
+  # FILTER 

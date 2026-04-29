@@ -3,9 +3,57 @@
 {% block title %} Dashboard {% endblock %}
 
 {% block content %}
+  <h2>Fiters</h2>
+  
+  <form action="{% url 'expense-list' %}"  method="get" accept-charset="utf-8">
+    <label for="category">category</label>
+    <!-- category -->
+    <select name="category" id="category">
+      <option value=''>All</option>
+      {% for c in all_categories %}
+        <option value="{{ c.id }}">
+          {% if filters.category == c.id %}
+            selected
+          {% endif %}
+          {{ c.name }}
+        </option>
+      {% endfor %}
+    </select>
+    
+    <!-- Amount Range -->
+    <br><br>
+    <label for="min">Min Amount :</label>
+    <input type="number" name="min" value="{{ filters.min }}" />
+    
+    <br><br>
+    <label for="max">Max Amount :</label>
+    <input type="number" name="max" value="{{ filters.max }}" />
+    <!-- Date Range -->
+    <br><br>
+    <label for="start_date">Start Date :</label>
+    <input type="date" name="start_date" value="{{ filters.start_date }}" />
+    
+    <br><br>
+    <label for="end_date">End Date :</label>
+    <input type="date" name="end_date" value="{{ filters.end_date }}" />
+    
+    <!-- Month / Year -->
+    <br><br>
+    <label for="month">Month :</label>
+    <input type="number" name="month" value="{{ filters.month }}" />
+    
+    <br><br>
+    <label for="year">Year :</label>
+    <input type="number" name="year" value="{{ filters.year }}" />
+    
+    <br><br>
+    <button type="submit">Apply Filters</button>
+  </form>
+
   <h2>Dashboard</h2>
   
-  <p>Total Spent : {{ total_spent.t }}</p>
+  
+  <p>Total Spent : {{ total_spent.t|floatformat:"3g" }}</p>
   
   <h2>Categories Summary</h2>
   <ul>
