@@ -9,10 +9,19 @@
 <body>
   <a href="{% url 'dashboard' %}">Dashboard</a>
   <a href="{% url 'expense-add' %}">Add Expense</a>
+  <a href="{% url 'budget-add' %}">Add Budget</a>
+  <a href="{% url 'savings-add' %}">Add Savings</a>
   <a href="{% url 'new_category' %}">Add Category</a>
   <a href="{% url 'view_expense' %}">View Expense</a>
   <br />
   
+  
+  <!-- ADD LATER 
+  <form action="" method="get" accept-charset="utf-8">
+    <input type="search" name="search" id="search" value="" />
+    <button type="submit">Search</button>
+  </form>
+   -->
   
   
   {% block content %}

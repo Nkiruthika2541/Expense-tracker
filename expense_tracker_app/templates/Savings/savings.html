@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+
+{% block title %} Add Savings {% endblock %}
+
+{% block content %}
+<h2>Add Savings Form</h2>
+<form method="post">
+  {% csrf_token %}
+  
+  {{ form.non_field_errors }}
+  
+  {% for field in form %}
+    <div>
+      {{ field.label_tag }}
+      {{ field }}
+      {{ field.errors }}
+    </div>
+  {% endfor %}
+  
+  <button type="submit">Add</button>
+</form>
+{% endblock %}

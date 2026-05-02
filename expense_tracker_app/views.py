@@ -3,8 +3,8 @@ from django.utils import timezone
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
-from expense_tracker_app.forms import ExpenseForm, CategoryForm
-from expense_tracker_app.models import AddExpense, AddCategory
+from expense_tracker_app.forms import ExpenseForm, CategoryForm, BudgetForm, SavingsForm
+from expense_tracker_app.models import AddExpense, AddCategory, AddBudget, AddSavings
 
 # FUNCTION BASED VIEWS
 
@@ -20,7 +20,7 @@ def dashboard(request):
   # VIEW ALL EXPENSES
 def view_expense(request):
   expense = AddExpense.objects.all()
-  return render(request,'view_expense.html',{'expense':expense})
+  return render(request,'Expense/view_expense.html',{'expense':expense})
   
   
   # ADD CATEGORY
@@ -32,7 +32,7 @@ def new_category(request):
       return redirect('dashboard')
   else:
     form = CategoryForm()
-  return render(request,'category.html',{'form':form})
+  return render(request,'Category/category.html',{'form':form})
   
   # UPDATE EXSISTING CATEGORY
 def update_category(request,catg_id):
@@ -44,7 +44,7 @@ def update_category(request,catg_id):
       return redirect('dashboard')
   else:
     form = CategoryForm(instance = required_category)
-  return render(request,'update_category.html',{'form':form})
+  return render(request,'Category/update_category.html',{'form':form})
   
   # DELETE CATEGORY
 def delete_category(request,catg_id):
@@ -53,7 +53,7 @@ def delete_category(request,catg_id):
     required_category.delete()
     return redirect('dashboard')
   
-  return render(request,'delete_category.html',{'form':required_category})
+  return render(request,'Category/delete_category.html',{'form':required_category})
 
 
   # LOGIN
@@ -114,14 +114,14 @@ class ExpenseCreateView(View):
   
   def get(self,request):  
     form = ExpenseForm()
-    return render(request,'expense.html',{'form':form})
+    return render(request,'Expense/expense.html',{'form':form})
   
   def post(self,request):  
     form = ExpenseForm(request.POST)
     if form.is_valid():  
       form.save()
       return redirect('dashboard')
-    return render(request,'expense.html',{'form':form})
+    return render(request,'Expense/expense.html',{'form':form})
     
   # UPDATE
 class ExpenseUpdateView(View):
@@ -132,7 +132,7 @@ class ExpenseUpdateView(View):
   def get(self,request,pk):  
     expense = self.get_object(pk)
     form = ExpenseForm(instance = expense)
-    return render(request,'update_expense.html',{'form':form})
+    return render(request,'Expense/update_expense.html',{'form':form})
   
   def post(self,request,pk):  
     expense = self.get_object(pk)
@@ -140,7 +140,7 @@ class ExpenseUpdateView(View):
     if form.is_valid():  
       form.save()
       return redirect('dashboard')
-    return render(request,'update_expense.html',{'form':form})
+    return render(request,'Expense/update_expense.html',{'form':form})
     
   # DELETE 
 class ExpenseDeleteView(View):
@@ -150,16 +150,46 @@ class ExpenseDeleteView(View):
   
   def get(self,request,pk):  
     expense = self.get_object(pk)
-    return render(request,'delete_expense.html',{'expense' : expense})
+    return render(request,'Expense/delete_expense.html',{'expense' : expense})
   
   def post(self,request,pk):  
     expense = self.get_object(pk)
     expense.delete()
     return redirect('dashboard')
 
-# CATEGORY
+# BUDGET
   # CREATE
+class BudgetCreateView(View):
+  
+  def get(self,request):  
+    form = BudgetForm()
+    return render(request,'Budget/budget.html',{'form':form})
+    
+  def post(self,request):  
+    form = BudgetForm(request.POST)
+    if form.is_valid():  
+      form.save()
+      return redirect('dashboard')
+    return render(request,'Budget/budget.html',{'form':form})
+
   # UPDATE
   # DELETE 
   
-  # FILTER 
+# BUDGET
+  # CREATE
+class SavingsCreateView(View):
+  
+  def get(self,request):  
+    form = SavingsForm()
+    return render(request,'Savings/savings.html',{'form':form})
+    
+  def post(self,request):  
+    form = SavingsForm(request.POST)
+    if form.is_valid():  
+      form.save()
+      return redirect('dashboard')
+    return render(request,'Savings/savings.html',{'form':form})
+
+  # UPDATE
+  # DELETE 
+  

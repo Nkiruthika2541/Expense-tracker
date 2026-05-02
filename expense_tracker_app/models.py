@@ -24,3 +24,32 @@ class AddExpense(models.Model):
     return f"{self.amount} - {self.category}"
   
   
+period_choices = [
+  ('daily','Daily'),
+  ('weekly','Weekly'),
+  ('monthly','Monthly'),
+  ('yearly','Yearly'),
+  ]
+  
+class AddBudget(models.Model):
+  amount = models.DecimalField(max_digits=10,decimal_places=3)
+  category = models.ForeignKey(AddCategory, on_delete = models.SET_NULL, null = True, blank = True)
+  time_period = models.CharField(max_length = 70, choices = period_choices, default = 'daily')
+  date = models.DateField()
+  description = models.TextField(null = True,blank = True)
+  created_at = models.DateTimeField(auto_now_add = True)
+  
+  def __str__(self):
+    return f"{self.amount} - {self.category}"
+  
+  
+class AddSavings(models.Model):
+  amount = models.DecimalField(max_digits=10,decimal_places=3)
+  category = models.ForeignKey(AddCategory, on_delete = models.SET_NULL, null = True, blank = True)
+  time_period = models.CharField(max_length = 70, choices = period_choices, default = 'daily')
+  date = models.DateField()
+  description = models.TextField(null = True,blank = True)
+  created_at = models.DateTimeField(auto_now_add = True)
+  
+  def __str__(self):
+    return f"{self.amount} - {self.category}"
