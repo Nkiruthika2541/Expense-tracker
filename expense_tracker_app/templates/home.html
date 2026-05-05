@@ -10,7 +10,6 @@
   <a href="{% url 'dashboard' %}">Dashboard</a>
   <a href="{% url 'expense-add' %}">Add Expense</a>
   <a href="{% url 'budget-add' %}">Add Budget</a>
-  <a href="{% url 'savings-add' %}">Add Savings</a>
   <a href="{% url 'new_category' %}">Add Category</a>
   <a href="{% url 'view_expense' %}">View Expense</a>
   <br />
@@ -25,38 +24,6 @@
   
   
   {% block content %}
-  <h2>Expenses</h2>
-  
-  {% for i in expense %}
-   
-   <p>Amount : {{ i.amount }} </p>
-   
-   {% if i.category %}
-   <p>Category : {{ i.category }} </p>
-   {% else %}
-   <p>Category : Uncategorized </p>
-   {% endif %}
-   
-   <p>Date : {{ i.date }} </p>
-   
-   {% if i.description %}
-   <p>Description : {{ i.description }} </p>
-   {% endif %}
-   
-   <button><a href="{% url 'expense-update' i.id %}">Update</a></button> 
-   <button><a href="{% url 'expense-delete' i.id %}">Delete</a></button>
-  
-  {% endfor %}
-  
-  <h2>Categories</h2>
-  <ul>
-    {% for c in category %}
-      <li> {{ c.name }} </li>
-      <button><a href="{% url 'update_category' c.id %}">Update</a></button> 
-      <button><a href="{% url 'delete_category' c.id %}">Delete</a></button>
-    {% endfor %}
-  </ul>
-  
   
   {% endblock %}
 	

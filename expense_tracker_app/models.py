@@ -5,6 +5,7 @@ from django.db import models
 
 class AddCategory(models.Model):
   name = models.CharField(max_length = 255)  
+  
   # user = models.ForeignKey(User, on_delete = models.CASCADE)  
   
   def __str__(self):
@@ -24,32 +25,24 @@ class AddExpense(models.Model):
     return f"{self.amount} - {self.category}"
   
   
-period_choices = [
-  ('daily','Daily'),
-  ('weekly','Weekly'),
-  ('monthly','Monthly'),
-  ('yearly','Yearly'),
-  ]
+# period_choices = [
+#   ('daily','Daily'),
+#   ('weekly','Weekly'),
+#   ('monthly','Monthly'),
+#   ('yearly','Yearly'),
+#   ]
   
 class AddBudget(models.Model):
   amount = models.DecimalField(max_digits=10,decimal_places=3)
   category = models.ForeignKey(AddCategory, on_delete = models.SET_NULL, null = True, blank = True)
-  time_period = models.CharField(max_length = 70, choices = period_choices, default = 'daily')
-  date = models.DateField()
-  description = models.TextField(null = True,blank = True)
+  
+  month = models.IntegerField(null = True, blank = True)
+  year = models.IntegerField()
+  
+  # time_period = models.CharField(max_length = 70, choices = period_choices, default = 'monthly')
+  
   created_at = models.DateTimeField(auto_now_add = True)
   
   def __str__(self):
     return f"{self.amount} - {self.category}"
   
-  
-class AddSavings(models.Model):
-  amount = models.DecimalField(max_digits=10,decimal_places=3)
-  category = models.ForeignKey(AddCategory, on_delete = models.SET_NULL, null = True, blank = True)
-  time_period = models.CharField(max_length = 70, choices = period_choices, default = 'daily')
-  date = models.DateField()
-  description = models.TextField(null = True,blank = True)
-  created_at = models.DateTimeField(auto_now_add = True)
-  
-  def __str__(self):
-    return f"{self.amount} - {self.category}"

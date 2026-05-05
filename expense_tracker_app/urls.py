@@ -13,5 +13,4 @@ urlpatterns = [
   path('update-category/<int:catg_id>',views.update_category,name='update_category'),
   path('delete-category/<int:catg_id>',views.delete_category,name='delete_category'),
   path('add-budget',views.BudgetCreateView.as_view(), name='budget-add'),
-  path('add-savings',views.SavingsCreateView.as_view(), name='savings-add'),
   ]

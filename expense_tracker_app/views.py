@@ -3,19 +3,56 @@ from django.utils import timezone
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
-from expense_tracker_app.forms import ExpenseForm, CategoryForm, BudgetForm, SavingsForm
-from expense_tracker_app.models import AddExpense, AddCategory, AddBudget, AddSavings
+from expense_tracker_app.forms import ExpenseForm, CategoryForm, BudgetForm 
+from expense_tracker_app.models import AddExpense, AddCategory, AddBudget
 
 # FUNCTION BASED VIEWS
+def get_expense():  
+  return AddExpense.objects.all()
+
+def get_category():  
+  return AddCategory.objects.all()
+
+def get_budget():  
+  return AddBudget.objects.all()
+
 
   # HOME PAGE / DASHBOARD
 def dashboard(request):
-  total_spent = AddExpense.objects.aggregate(t=Sum('amount'))
-  all_categories = AddCategory.objects.all()
+  total_spent = get_expense().aggregate(t=Sum('amount'))
+  total_budget = get_budget().aggregate(t=Sum('amount'))
+  
+  all_categories = get_category()
+  budget = get_budget()
+  
   today = timezone.now().date()
   now_month = timezone.now().month
-  recent_expenses = AddExpense.objects.filter(date__lte=today).order_by('-date')
-  return render(request,'dashboard.html',{'total_spent':total_spent,'all_categories':all_categories,'expenses':recent_expenses})
+  now_year = timezone.now().year
+  
+  recent_expenses = get_expense().filter(date__lte=today).order_by('-date')
+  
+  categories = get_category()
+
+  result = []
+  
+  for cat in categories:
+    spent = get_expense().filter(category=cat) \
+        .aggregate(total=Sum('amount'))['total'] or 0
+  
+    budget_obj = get_budget().filter(category = cat).first()
+    budget = budget_obj.amount if budget_obj else 0
+    
+    savings = budget - spent 
+    
+    result.append({
+      'name': cat.name,
+      'spent': spent,
+      'budget': budget,
+      'savings': savings
+    })
+  
+  
+  return render(request,'dashboard.html',{'total_spent':total_spent,'total_budget':total_budget,'all_categories':all_categories,'expenses':recent_expenses,'result':result})
 
   # VIEW ALL EXPENSES
 def view_expense(request):
@@ -171,24 +208,6 @@ class BudgetCreateView(View):
       form.save()
       return redirect('dashboard')
     return render(request,'Budget/budget.html',{'form':form})
-
-  # UPDATE
-  # DELETE 
-  
-# BUDGET
-  # CREATE
-class SavingsCreateView(View):
-  
-  def get(self,request):  
-    form = SavingsForm()
-    return render(request,'Savings/savings.html',{'form':form})
-    
-  def post(self,request):  
-    form = SavingsForm(request.POST)
-    if form.is_valid():  
-      form.save()
-      return redirect('dashboard')
-    return render(request,'Savings/savings.html',{'form':form})
 
   # UPDATE
   # DELETE 
